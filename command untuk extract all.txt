@@ -1,1 +1,0 @@
-Get-ChildItem -Path "app\src\main" -Include *.java, *.xml -Recurse | ForEach-Object { Write-Output "====== $($_.Name) ======"; Get-Content $_; Write-Output "" } > All_GCoach_Code.txt
