@@ -14,22 +14,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GCoach">
 
-        <!-- Stats -->
+        <!-- Launch screen: Login (skips straight to Dashboard if already logged in) -->
         <activity
-            android:name=".ProgressActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- Launch Dashboard -->
-        <activity
-            android:name=".DashboardActivity"
+            android:name=".LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Register -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- Dashboard (no longer the launcher) -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Stats -->
+        <activity
+            android:name=".ProgressActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <!-- Tuner -->
         <activity

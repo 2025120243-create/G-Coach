@@ -31,6 +31,16 @@
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tvUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Progress for you"
+                android:textColor="#bacbb9"
+                android:textSize="14sp" />
+
+            <!-- Streak + Sessions -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,9 +57,30 @@
                     app:cardBackgroundColor="#2a2a2a"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔥 Streak" android:textColor="#ffb347" android:textSize="14sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="5 Days" android:textColor="#e5e2e1" android:textSize="18sp" android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Streak"
+                            android:textColor="#ffb347"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvStreak"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0 Days"
+                            android:textColor="#e5e2e1"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -61,13 +92,35 @@
                     app:cardBackgroundColor="#2a2a2a"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🎸 Sessions" android:textColor="#75ff9e" android:textSize="14sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="24 Total" android:textColor="#e5e2e1" android:textSize="18sp" android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sessions"
+                            android:textColor="#75ff9e"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSessions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0 Total"
+                            android:textColor="#e5e2e1"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
+            <!-- Overall accuracy + chart -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,41 +139,40 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Overall Pitch Accuracy"
+                        android:text="Overall Accuracy"
                         android:textColor="#bacbb9"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvAccuracy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="88%"
+                        android:text="--"
                         android:textColor="#75ff9e"
                         android:textSize="56sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
+                        android:id="@+id/chartContainer"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="16dp"
                         android:gravity="bottom|center_horizontal"
-                        android:orientation="horizontal">
-                        <View android:layout_width="20dp" android:layout_height="30dp" android:layout_marginHorizontal="4dp" android:background="#3b4a3d" app:cornerRadius="4dp" />
-                        <View android:layout_width="20dp" android:layout_height="40dp" android:layout_marginHorizontal="4dp" android:background="#3b4a3d" />
-                        <View android:layout_width="20dp" android:layout_height="35dp" android:layout_marginHorizontal="4dp" android:background="#3b4a3d" />
-                        <View android:layout_width="20dp" android:layout_height="45dp" android:layout_marginHorizontal="4dp" android:background="#3b4a3d" />
-                        <View android:layout_width="20dp" android:layout_height="50dp" android:layout_marginHorizontal="4dp" android:background="#3b4a3d" />
-                        <View android:layout_width="20dp" android:layout_height="55dp" android:layout_marginHorizontal="4dp" android:background="#75ff9e" /> </LinearLayout>
+                        android:orientation="horizontal" />
+
                     <TextView
+                        android:id="@+id/tvChartLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Last 6 Sessions"
+                        android:text="Play a game to see your chart"
                         android:textColor="#859585"
                         android:textSize="12sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Best scores -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,29 +190,86 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Identified Weak Spots"
+                        android:layout_marginBottom="12dp"
+                        android:text="Best Scores"
                         android:textColor="#e5e2e1"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="12dp" />
+                        android:textStyle="bold" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Low E String (Tends to run Flat)"
-                        android:textColor="#ffb4ab"
-                        android:textSize="14sp"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Easy"
+                            android:textColor="#bacbb9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvBestEasy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="#e5e2e1"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• G String (Tends to run Sharp)"
-                        android:textColor="#ffb347"
-                        android:textSize="14sp" />
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Medium"
+                            android:textColor="#bacbb9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvBestMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="#e5e2e1"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Hard"
+                            android:textColor="#bacbb9"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvBestHard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="#75ff9e"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Recent sessions (rows are added from ProgressActivity.java) -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,27 +287,25 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
                         android:text="Recent Session Scores"
                         android:textColor="#e5e2e1"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="12dp" />
+                        android:textStyle="bold" />
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Today - Hard Mode" android:textColor="#bacbb9" android:textSize="14sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1,240 pts" android:textColor="#75ff9e" android:textSize="14sp" android:textStyle="bold" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvNoSessions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No games played yet. Finish a Note-Match round and it will show up here."
+                        android:textColor="#859585"
+                        android:textSize="14sp" />
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Yesterday - Medium Mode" android:textColor="#bacbb9" android:textSize="14sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="950 pts" android:textColor="#e5e2e1" android:textSize="14sp" android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="2 days ago - Tuner Only" android:textColor="#bacbb9" android:textSize="14sp" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="100% Acc" android:textColor="#e5e2e1" android:textSize="14sp" android:textStyle="bold" />
-                    </LinearLayout>
-
+                    <LinearLayout
+                        android:id="@+id/recentContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

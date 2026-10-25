@@ -1,7 +1,6 @@
 package com.nawawi.gcoach;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +22,7 @@ public class DifficultyActivity extends AppCompatActivity {
         CardView cardMedium = findViewById(R.id.cardMedium);
         CardView cardHard = findViewById(R.id.cardHard);
 
-        // [NEW] The small text under each title (used to show the best score)
+        // The small text under each title (used to show the best score)
         tvEasyInfo = findViewById(R.id.tvEasyInfo);
         tvMediumInfo = findViewById(R.id.tvMediumInfo);
         tvHardInfo = findViewById(R.id.tvHardInfo);
@@ -43,14 +42,18 @@ public class DifficultyActivity extends AppCompatActivity {
         navStats.setOnClickListener(v -> navigateTo(ProgressActivity.class));
     }
 
-    // [NEW] Runs every time this screen is shown, so the score updates after a game
+    // Runs every time this screen is shown, so the score updates after a game
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs = getSharedPreferences("gcoach_prefs", MODE_PRIVATE);
-        tvEasyInfo.setText(buildInfo("Open strings only", prefs.getInt("best_EASY", 0)));
-        tvMediumInfo.setText(buildInfo("Frets 1-5 included", prefs.getInt("best_MEDIUM", 0)));
-        tvHardInfo.setText(buildInfo("Full fretboard mastery", prefs.getInt("best_HARD", 0)));
+
+        // Best scores now come from the logged-in user's rows in SQLite
+        DatabaseHelper db = DatabaseHelper.getInstance(this);
+        long userId = new SessionManager(this).getUserId();
+
+        tvEasyInfo.setText(buildInfo("Open strings only", db.getBestScore(userId, "EASY")));
+        tvMediumInfo.setText(buildInfo("Frets 1-5 included", db.getBestScore(userId, "MEDIUM")));
+        tvHardInfo.setText(buildInfo("Full fretboard mastery", db.getBestScore(userId, "HARD")));
     }
 
     private String buildInfo(String description, int best) {

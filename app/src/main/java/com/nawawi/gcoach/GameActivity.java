@@ -476,13 +476,11 @@ public class GameActivity extends AppCompatActivity {
 
         int accuracy = Math.round(hits * 100f / TOTAL_ROUNDS);
 
-        SharedPreferences prefs = getSharedPreferences("gcoach_prefs", MODE_PRIVATE);
-        int oldBest = prefs.getInt("best_" + difficulty, 0);
+        DatabaseHelper db = DatabaseHelper.getInstance(this);
+        long userId = new SessionManager(this).getUserId();
+        int oldBest = db.getBestScore(userId, difficulty);
         boolean newBest = score > oldBest;
-        prefs.edit()
-                .putInt("best_" + difficulty, Math.max(oldBest, score))
-                .putInt("sessions_total", prefs.getInt("sessions_total", 0) + 1)
-                .apply();
+        db.saveSession(userId, difficulty, score, accuracy, hits, bestStreak);
 
         String message = String.format(Locale.US,
                 "Score: %d%s\nAccuracy: %d%% (%d of %d notes)\nBest streak: %d\nBest on %s: %d",

@@ -1,15 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="120dp"
-    android:height="240dp"
-    android:viewportWidth="100"
-    android:viewportHeight="200">
+    android:width="160dp"
+    android:height="220dp"
+    android:viewportWidth="160"
+    android:viewportHeight="220">
 
+    <!-- 1. Headstock body (filled shape) -->
     <path
-        android:fillColor="#8B4513"
-        android:pathData="
-            M20,10
-            C40,0 60,0 80,10
-            L80,150
-            C60,180 40,180 20,150
-            Z"/>
+        android:fillColor="#2A2A2A"
+        android:pathData="M46,220 L46,214 C46,198 13,206 12,188 L4,30 C3,16 12,8 26,7 C60,2 100,2 134,7 C148,8 157,16 156,30 L148,188 C147,206 114,198 114,214 L114,220 Z" />
+
+    <!-- 2. Wood grain lines (very faint) -->
+    <path
+        android:strokeColor="#14FFFFFF"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:pathData="M42,16 C40,60 44,110 42,168 M54,12 C52,60 56,110 54,168 M106,12 C104,60 108,110 106,168 M118,16 C116,60 120,110 118,168" />
+
+    <!-- 3. Binding / outline (open path so the bottom edge has no line) -->
+    <path
+        android:strokeColor="#859585"
+        android:strokeWidth="2.5"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M46,220 L46,214 C46,198 13,206 12,188 L4,30 C3,16 12,8 26,7 C60,2 100,2 134,7 C148,8 157,16 156,30 L148,188 C147,206 114,198 114,214 L114,220" />
+
+    <!-- 4. Guitar pick inlay (brand green) -->
+    <path
+        android:fillColor="#00E676"
+        android:fillAlpha="0.9"
+        android:pathData="M80,40 C96,40 102,52 98,64 C94,76 86,86 80,89 C74,86 66,76 62,64 C58,52 64,40 80,40 Z" />
+
+    <!-- 5. Truss rod cover -->
+    <path
+        android:fillColor="#1E1E1E"
+        android:strokeColor="#4A4A4A"
+        android:strokeWidth="1.2"
+        android:strokeLineJoin="round"
+        android:pathData="M68,144 L92,144 L90,190 C90,197 70,197 70,190 Z" />
+
+    <!-- Truss rod cover screws -->
+    <path
+        android:fillColor="#859585"
+        android:pathData="M78.4,151 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0 Z M78.4,184 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0 Z" />
+
+    <!-- 6. Tuning post rings (3 left, 3 right) -->
+    <path
+        android:fillColor="#151515"
+        android:strokeColor="#859585"
+        android:strokeWidth="1.5"
+        android:pathData="M18,44 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0 Z M18,116 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0 Z M18,188 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0 Z M130,44 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0 Z M130,116 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0 Z M130,188 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0 Z" />
+
+    <!-- Tuning post centres -->
+    <path
+        android:fillColor="#859585"
+        android:pathData="M22,44 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z M22,116 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z M22,188 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z M134,44 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z M134,116 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z M134,188 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z" />
+
+    <!-- 7. Nut (bone-white strip at the bottom) -->
+    <path
+        android:fillColor="#E5E2E1"
+        android:pathData="M46,213 L114,213 L114,220 L46,220 Z" />
 </vector>
