@@ -39,6 +39,12 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <!-- Profile (opened from the avatar in the top bar) -->
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <!-- Stats -->
         <activity
             android:name=".ProgressActivity"

@@ -28,6 +28,11 @@ public class SessionManager {
                 .apply();
     }
 
+    /** Keeps the saved login in sync after the user edits their name on the Profile screen. */
+    public void setDisplayName(String displayName) {
+        prefs.edit().putString(KEY_DISPLAY_NAME, displayName).apply();
+    }
+
     public void logout() {
         prefs.edit().clear().apply();
     }

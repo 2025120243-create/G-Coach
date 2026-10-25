@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shared bottom navigation. BaseActivity.setupBottomNav(activeTab) wires the clicks
+     and highlights the active tab, so no screen has to copy this block any more. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomNav"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/gc_card"
+    android:elevation="8dp"
+    android:orientation="horizontal"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:id="@+id/navHome"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="Home"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/pillHome"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iconHome"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_home"
+                app:tint="@color/gc_muted" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/labelHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textColor="@color/gc_muted"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navTuner"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="Tuner"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/pillTuner"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iconTuner"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_tuner"
+                app:tint="@color/gc_muted" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/labelTuner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tuner"
+            android:textColor="@color/gc_muted"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navGame"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="Game"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/pillGame"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iconGame"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_game"
+                app:tint="@color/gc_muted" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/labelGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Game"
+            android:textColor="@color/gc_muted"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/navStats"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="Stats"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/pillStats"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iconStats"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_stats"
+                app:tint="@color/gc_muted" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/labelStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stats"
+            android:textColor="@color/gc_muted"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

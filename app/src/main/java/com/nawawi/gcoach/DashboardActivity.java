@@ -1,57 +1,61 @@
 package com.nawawi.gcoach;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends BaseActivity {
 
-    private SessionManager session;
+    private TextView welcomeText, tvDashStreak, tvDashSessions, tvDashAccuracy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Safety check: nobody gets in without logging in
-        session = new SessionManager(this);
-        if (!session.isLoggedIn()) {
-            goToLogin();
-            return;
-        }
+        if (!ensureLoggedIn()) return;
 
         setContentView(R.layout.activity_dashboard);
 
-        // Greeting with the user's first name
-        TextView welcomeText = findViewById(R.id.welcomeText);
-        welcomeText.setText("Hey " + firstName(session.getDisplayName()) + ",\nReady to shred?");
+        setupTopBar();               // avatar (top right) opens the Profile screen
+        setupBottomNav(TAB_HOME);
 
-        // Profile icon (top right) opens the account dialog
-        ImageView ivProfile = findViewById(R.id.ivProfile);
-        ivProfile.setOnClickListener(v -> showAccountDialog());
+        welcomeText = findViewById(R.id.welcomeText);
+        tvDashStreak = findViewById(R.id.tvDashStreak);
+        tvDashSessions = findViewById(R.id.tvDashSessions);
+        tvDashAccuracy = findViewById(R.id.tvDashAccuracy);
 
-        // Cards mapping
+        // Big cards
         CardView cardTuner = findViewById(R.id.cardTuner);
         CardView cardGame = findViewById(R.id.cardGame);
+        CardView cardStats = findViewById(R.id.cardStats);
+        cardTuner.setOnClickListener(v -> goToTab(TAB_TUNER));
+        cardGame.setOnClickListener(v -> goToTab(TAB_GAME));
+        cardStats.setOnClickListener(v -> goToTab(TAB_STATS));
 
-        // Nav mapping
-        LinearLayout navTuner = findViewById(R.id.navTuner);
-        LinearLayout navGame = findViewById(R.id.navGame);
-        LinearLayout navStats = findViewById(R.id.navStats);
+        // The three little stat cards also open Stats
+        findViewById(R.id.statStreakCard).setOnClickListener(v -> goToTab(TAB_STATS));
+        findViewById(R.id.statGamesCard).setOnClickListener(v -> goToTab(TAB_STATS));
+        findViewById(R.id.statAccuracyCard).setOnClickListener(v -> goToTab(TAB_STATS));
+    }
 
-        // Click Listeners
-        cardTuner.setOnClickListener(v -> navigateTo(MainActivity.class));
-        navTuner.setOnClickListener(v -> navigateTo(MainActivity.class));
+    // Runs every time the screen is shown, so the name and numbers are always fresh
+    // (for example after editing the name on the Profile screen or finishing a game)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (welcomeText == null) return; // onCreate stopped early (not logged in)
 
-        cardGame.setOnClickListener(v -> navigateTo(DifficultyActivity.class));
-        navGame.setOnClickListener(v -> navigateTo(DifficultyActivity.class));
+        welcomeText.setText("Hey " + firstName(session.getDisplayName()) + ",\nReady to shred?");
 
-        navStats.setOnClickListener(v -> navigateTo(ProgressActivity.class));
+        DatabaseHelper db = DatabaseHelper.getInstance(this);
+        long userId = session.getUserId();
+
+        tvDashStreak.setText(String.valueOf(db.getPlayStreak(userId)));
+        tvDashSessions.setText(String.valueOf(db.getSessionCount(userId)));
+        int avg = db.getAverageAccuracy(userId);
+        tvDashAccuracy.setText(avg < 0 ? "--" : avg + "%");
     }
 
     private String firstName(String fullName) {
@@ -59,31 +63,5 @@ public class DashboardActivity extends AppCompatActivity {
         if (trimmed.isEmpty()) return "Guitarist";
         int space = trimmed.indexOf(' ');
         return space > 0 ? trimmed.substring(0, space) : trimmed;
-    }
-
-    private void showAccountDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle(session.getDisplayName())
-                .setMessage("Signed in as @" + session.getUsername())
-                .setPositiveButton("Log out", (d, w) -> {
-                    session.logout();
-                    goToLogin();
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-    }
-
-    private void goToLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
-
-    private void navigateTo(Class<?> targetActivity) {
-        Intent intent = new Intent(DashboardActivity.this, targetActivity);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
-        // Do not call finish() here so they can press 'Back' to return to Dashboard
     }
 }

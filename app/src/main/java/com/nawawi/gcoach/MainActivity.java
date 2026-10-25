@@ -1,7 +1,6 @@
 package com.nawawi.gcoach;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -11,18 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.HashSet;
 
@@ -32,7 +29,7 @@ import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static final int MIC_PERMISSION_CODE = 200;
 
@@ -42,10 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButton pegE2, pegA2, pegD3, pegG3, pegB3, pegE4;
     private MaterialButton currentSelectedButton = null;
     private Spinner tuningSpinner;
-
-    // Navigation and Top Bar Icons
-    private ImageView btnMenu, btnProfile;
-    private LinearLayout navHome, navGame, navStats;
 
     // Tuning Logic Variables
     private float targetHz = 0f;
@@ -74,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!ensureLoggedIn()) return;
+
         setContentView(R.layout.activity_main);
 
         // Map Views
@@ -90,13 +85,10 @@ public class MainActivity extends AppCompatActivity {
         pegB3 = findViewById(R.id.pegB3);
         pegE4 = findViewById(R.id.pegE4);
 
-        btnMenu = findViewById(R.id.btnMenu);
-        btnProfile = findViewById(R.id.btnProfile);
-        navHome = findViewById(R.id.navHome);
-        navGame = findViewById(R.id.navGame);
-        navStats = findViewById(R.id.navStats);
+        // Top bar: menu button on the left, profile avatar on the right
+        setupTopBar("G-COACH", R.drawable.ic_menu, "Menu", v -> showMenuDialog(), true);
+        setupBottomNav(TAB_TUNER);
 
-        setupTopAndBottomNav();
         setupSpinner();
         attachPegListeners();
 
@@ -131,27 +123,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // =====================================================================
-    // Navigation
+    // Top-bar menu (the left button)
     // =====================================================================
-    private void setupTopAndBottomNav() {
-        // Top Icons Action
-        btnMenu.setOnClickListener(v ->
-                Toast.makeText(this, "Open Menu Drawer", Toast.LENGTH_SHORT).show());
-        btnProfile.setOnClickListener(v ->
-                Toast.makeText(this, "Open User Profile", Toast.LENGTH_SHORT).show());
-
-        // Bottom Navigation routing (no slide animation)
-        navHome.setOnClickListener(v -> navigateTo(DashboardActivity.class));
-        navGame.setOnClickListener(v -> navigateTo(DifficultyActivity.class));
-        navStats.setOnClickListener(v -> navigateTo(ProgressActivity.class));
+    private void showMenuDialog() {
+        String[] items = {"How to tune", "Reset strings", "My profile", "Log out"};
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Menu")
+                .setItems(items, (dialog, which) -> {
+                    switch (which) {
+                        case 0: showHowToTune(); break;
+                        case 1: resetTuningState();
+                                Toast.makeText(this, "Strings reset", Toast.LENGTH_SHORT).show();
+                                break;
+                        case 2: openProfile(); break;
+                        case 3: confirmLogout(); break;
+                    }
+                })
+                .show();
     }
 
-    private void navigateTo(Class<?> targetActivity) {
-        Intent intent = new Intent(MainActivity.this, targetActivity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        overridePendingTransition(0, 0); // Removes the slide animation
-        finish();
+    private void showHowToTune() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("How to tune")
+                .setMessage("1. Pick a tuning at the top.\n"
+                        + "2. Tap the string you want to tune.\n"
+                        + "3. Pluck that string and let it ring.\n"
+                        + "4. FLAT means tighten the peg, SHARP means loosen it.\n"
+                        + "5. Hold it steady until the string turns green.")
+                .setPositiveButton("Got it", null)
+                .show();
+    }
+
+    private void confirmLogout() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Log out?")
+                .setMessage("You are signed in as @" + session.getUsername())
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Log out", (d, w) -> {
+                    session.logout();
+                    goToLogin();
+                })
+                .show();
     }
 
     // =====================================================================

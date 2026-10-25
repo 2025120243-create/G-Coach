@@ -278,4 +278,93 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
     }
+
+    // ---------------------------------------------------------------------
+    // Profile (used by ProfileActivity)
+    // ---------------------------------------------------------------------
+
+    /** When the account was created (milliseconds), or 0 if the user is not found. */
+    public long getCreatedAt(long userId) {
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT created_at FROM users WHERE id = ?",
+                new String[]{String.valueOf(userId)});
+        try {
+            return c.moveToFirst() ? c.getLong(0) : 0L;
+        } finally {
+            c.close();
+        }
+    }
+
+    /** Total number of notes the user has matched correctly across all games. */
+    public int getTotalHits(long userId) {
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT COALESCE(SUM(hits), 0) FROM sessions WHERE user_id = ?",
+                new String[]{String.valueOf(userId)});
+        try {
+            return c.moveToFirst() ? c.getInt(0) : 0;
+        } finally {
+            c.close();
+        }
+    }
+
+    /** Changes the name shown in the app. Returns true if a row was updated. */
+    public boolean updateDisplayName(long userId, String newName) {
+        ContentValues v = new ContentValues();
+        v.put("display_name", newName.trim());
+        return getWritableDatabase().update("users", v, "id = ?",
+                new String[]{String.valueOf(userId)}) > 0;
+    }
+
+    /** True if this is the correct password for the given user id. */
+    public boolean verifyPassword(long userId, String password) {
+        Cursor c = getReadableDatabase().rawQuery(
+                "SELECT password_hash, salt FROM users WHERE id = ?",
+                new String[]{String.valueOf(userId)});
+        try {
+            if (!c.moveToFirst()) return false;
+            byte[] salt = Base64.decode(c.getString(1), Base64.NO_WRAP);
+            String expected = c.getString(0);
+            String actual = hashPassword(password, salt);
+            // constant-time comparison
+            return MessageDigest.isEqual(expected.getBytes(), actual.getBytes());
+        } finally {
+            c.close();
+        }
+    }
+
+    /**
+     * Changes the password after checking the old one.
+     * Returns false if the old password is wrong. A fresh salt is generated every time.
+     */
+    public boolean changePassword(long userId, String oldPassword, String newPassword) {
+        if (!verifyPassword(userId, oldPassword)) return false;
+
+        byte[] salt = new byte[16];
+        new SecureRandom().nextBytes(salt);
+
+        ContentValues v = new ContentValues();
+        v.put("password_hash", hashPassword(newPassword, salt));
+        v.put("salt", Base64.encodeToString(salt, Base64.NO_WRAP));
+        return getWritableDatabase().update("users", v, "id = ?",
+                new String[]{String.valueOf(userId)}) > 0;
+    }
+
+    /** Deletes every saved game of this user (the account itself stays). */
+    public void clearSessions(long userId) {
+        getWritableDatabase().delete("sessions", "user_id = ?",
+                new String[]{String.valueOf(userId)});
+    }
+
+    /** Deletes the account and all of its saved games. */
+    public void deleteUser(long userId) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            db.delete("sessions", "user_id = ?", new String[]{String.valueOf(userId)});
+            db.delete("users", "id = ?", new String[]{String.valueOf(userId)});
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
 }

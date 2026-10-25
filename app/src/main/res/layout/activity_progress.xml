@@ -7,20 +7,27 @@
     android:background="#131313"
     android:fitsSystemWindows="true">
 
+    <include
+        android:id="@+id/topAppBar"
+        layout="@layout/layout_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="24dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/topAppBar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="32dp">
+            android:paddingTop="16dp">
 
             <TextView
                 android:id="@+id/title"
@@ -301,6 +308,17 @@
                         android:textColor="#859585"
                         android:textSize="14sp" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPlayNow"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Play a game"
+                        android:textColor="@color/gc_on_green"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/gc_green"
+                        app:cornerRadius="16dp" />
+
                     <LinearLayout
                         android:id="@+id/recentContainer"
                         android:layout_width="match_parent"
@@ -312,37 +330,11 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
+    <include
         android:id="@+id/bottomNav"
+        layout="@layout/layout_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#2a2a2a"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:clickable="true" android:focusable="true" android:gravity="center" android:orientation="vertical">
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_gallery" app:tint="#bacbb9" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Home" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout android:id="@+id/navTuner" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:clickable="true" android:focusable="true" android:gravity="center" android:orientation="vertical">
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_compass" app:tint="#bacbb9" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tuner" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout android:id="@+id/navGame" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:clickable="true" android:focusable="true" android:gravity="center" android:orientation="vertical">
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_media_play" app:tint="#bacbb9" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Game" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout android:id="@+id/navStats" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-            <LinearLayout android:layout_width="64dp" android:layout_height="32dp" android:background="@drawable/bg_nav_active" android:gravity="center">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="#00612e" />
-            </LinearLayout>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Stats" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

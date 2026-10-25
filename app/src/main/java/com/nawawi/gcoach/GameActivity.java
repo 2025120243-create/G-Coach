@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +114,7 @@ public class GameActivity extends AppCompatActivity {
     private CountDownTimer roundTimer;
     private AudioDispatcher dispatcher;
     private AlertDialog resultDialog;
+    private AlertDialog quitDialog;
 
     // =====================================================================
     // Lifecycle
@@ -129,7 +132,13 @@ public class GameActivity extends AppCompatActivity {
         configureDifficulty();
         buildPool();
 
-        btnBack.setOnClickListener(v -> finish());
+        btnBack.setOnClickListener(v -> confirmQuit());
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                confirmQuit();
+            }
+        });
         btnSkip.setOnClickListener(v -> {
             if (state == State.PLAYING) onMiss("Skipped! It was " + current.noteName);
         });
@@ -147,14 +156,26 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         // Free the microphone and stop the clock when the user leaves the screen
-        stopListening();
-        if (roundTimer != null) roundTimer.cancel();
-        handler.removeCallbacks(nextRoundRunnable);
+        pauseGame();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // If the "Quit?" question is still on screen, stay paused until it is answered
+        if (quitDialog != null && quitDialog.isShowing()) return;
+        resumeGame();
+    }
+
+    // Stops the microphone and the clock (used when leaving the screen or asking "Quit?")
+    private void pauseGame() {
+        stopListening();
+        if (roundTimer != null) roundTimer.cancel();
+        handler.removeCallbacks(nextRoundRunnable);
+    }
+
+    // Starts them again from where the game was
+    private void resumeGame() {
         if (state == State.PLAYING) {
             startListening();
             startTimer(Math.max(remainingMs, 1000));
@@ -164,6 +185,25 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    // Back arrow / phone Back button: ask first, so a stray tap does not lose a round
+    private void confirmQuit() {
+        // Nothing to lose before the first note or after the round has ended
+        if (state == State.FINISHED || state == State.IDLE || round == 0) {
+            finish();
+            return;
+        }
+        if (quitDialog != null && quitDialog.isShowing()) return;
+
+        pauseGame();
+        quitDialog = new MaterialAlertDialogBuilder(this)
+                .setTitle("Quit this round?")
+                .setMessage("Your score for this round will not be saved.")
+                .setNegativeButton("Keep playing", (d, w) -> resumeGame())
+                .setPositiveButton("Quit", (d, w) -> finish())
+                .setOnCancelListener(d -> resumeGame())
+                .show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -171,6 +211,7 @@ public class GameActivity extends AppCompatActivity {
         if (roundTimer != null) roundTimer.cancel();
         handler.removeCallbacksAndMessages(null);
         if (resultDialog != null && resultDialog.isShowing()) resultDialog.dismiss();
+        if (quitDialog != null && quitDialog.isShowing()) quitDialog.dismiss();
     }
 
     @Override
@@ -488,7 +529,7 @@ public class GameActivity extends AppCompatActivity {
                 accuracy, hits, TOTAL_ROUNDS, bestStreak,
                 difficulty, Math.max(oldBest, score));
 
-        resultDialog = new AlertDialog.Builder(this)
+        resultDialog = new MaterialAlertDialogBuilder(this)
                 .setTitle("Round complete")
                 .setMessage(message)
                 .setCancelable(false)

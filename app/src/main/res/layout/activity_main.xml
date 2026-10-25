@@ -8,365 +8,287 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
         android:id="@+id/topAppBar"
+        layout="@layout/layout_top_bar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:paddingHorizontal="16dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/btnMenu"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            app:tint="#75ff9e"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="G-COACH"
-            android:textColor="#75ff9e"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/btnProfile"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_myplaces"
-            app:tint="#75ff9e"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Spinner
-        android:id="@+id/tuningSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#75ff9e"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar" />
-
-    <LinearLayout
-        android:id="@+id/pitchDisplay"
+    <ScrollView
+        android:id="@+id/tunerScroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/tuningSpinner">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar">
 
-        <TextView
-            android:id="@+id/tvDetectedNote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="--"
-            android:textColor="#e5e2e1"
-            android:textSize="96sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvDetectedFrequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0.0 Hz"
-            android:textColor="#75ff9e"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvStatusText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="SELECT STRING"
-            android:textAllCaps="true"
-            android:textColor="#859585"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.1" />
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/tuningMeter"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pitchDisplay">
-
-        <LinearLayout
-            android:id="@+id/markingsContainer"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="32dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="32dp" android:layout_weight="1" android:background="#75ff9e" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-            <View android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/tunerNeedle"
-            android:layout_width="4dp"
-            android:layout_height="80dp"
-            android:background="#00e676"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvFlat"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FLAT"
-            android:textColor="#bacbb9"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tunerNeedle" />
+            android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/tvSharp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SHARP"
-            android:textColor="#bacbb9"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tunerNeedle" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Spinner
+                android:id="@+id/tuningSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#75ff9e"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/headstockContainer"
-        android:layout_width="250dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tuningMeter">
+            <LinearLayout
+                android:id="@+id/pitchDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/tuningSpinner">
 
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="0dp"
-            android:contentDescription="Guitar headstock"
-            app:srcCompat="@drawable/headstock"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvDetectedNote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#e5e2e1"
+                    android:textSize="96sp"
+                    android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pegE2"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="28dp"
-            android:backgroundTint="#353534"
-            android:text="E"
-            android:textColor="#e5e2e1"
-            android:textSize="20sp"
-            app:strokeColor="#859585"
-            app:strokeWidth="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tvDetectedFrequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0 Hz"
+                    android:textColor="#75ff9e"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pegA2"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="28dp"
-            android:backgroundTint="#353534"
-            android:text="A"
-            android:textColor="#e5e2e1"
-            android:textSize="20sp"
-            app:strokeColor="#859585"
-            app:strokeWidth="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pegE2" />
+                <TextView
+                    android:id="@+id/tvStatusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="SELECT STRING"
+                    android:textAllCaps="true"
+                    android:textColor="#859585"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1" />
+            </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pegD3"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="28dp"
-            android:backgroundTint="#353534"
-            android:text="D"
-            android:textColor="#e5e2e1"
-            android:textSize="20sp"
-            app:strokeColor="#859585"
-            app:strokeWidth="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pegA2" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tuningMeter"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pitchDisplay">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pegG3"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="28dp"
-            android:backgroundTint="#353534"
-            android:text="G"
-            android:textColor="#e5e2e1"
-            android:textSize="20sp"
-            app:strokeColor="#859585"
-            app:strokeWidth="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:id="@+id/markingsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:weightSum="10"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pegB3"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="28dp"
-            android:backgroundTint="#353534"
-            android:text="B"
-            android:textColor="#e5e2e1"
-            android:textSize="20sp"
-            app:strokeColor="#859585"
-            app:strokeWidth="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pegG3" />
+                    <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="32dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="32dp" android:layout_weight="1" android:background="#75ff9e" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="16dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
+                    <View android:layout_width="0dp" android:layout_height="24dp" android:layout_weight="1" android:background="#859585" android:layout_marginHorizontal="2dp"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/pegE4"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:cornerRadius="28dp"
-            android:backgroundTint="#353534"
-            android:text="e"
-            android:textAllCaps="false"
-            android:textColor="#e5e2e1"
-            android:textSize="20sp"
-            app:strokeColor="#859585"
-            app:strokeWidth="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pegB3" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
-    <LinearLayout
+                <View
+                    android:id="@+id/tunerNeedle"
+                    android:layout_width="4dp"
+                    android:layout_height="80dp"
+                    android:background="#00e676"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvFlat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FLAT"
+                    android:textColor="#bacbb9"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tunerNeedle" />
+
+                <TextView
+                    android:id="@+id/tvSharp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SHARP"
+                    android:textColor="#bacbb9"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tunerNeedle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headstockContainer"
+                android:layout_width="250dp"
+                android:layout_height="220dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tuningMeter">
+
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="0dp"
+                    android:contentDescription="Guitar headstock"
+                    app:srcCompat="@drawable/headstock"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pegE2"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="28dp"
+                    android:backgroundTint="#353534"
+                    android:text="E"
+                    android:textColor="#e5e2e1"
+                    android:textSize="20sp"
+                    app:strokeColor="#859585"
+                    app:strokeWidth="2dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pegA2"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="28dp"
+                    android:backgroundTint="#353534"
+                    android:text="A"
+                    android:textColor="#e5e2e1"
+                    android:textSize="20sp"
+                    app:strokeColor="#859585"
+                    app:strokeWidth="2dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pegE2" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pegD3"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="28dp"
+                    android:backgroundTint="#353534"
+                    android:text="D"
+                    android:textColor="#e5e2e1"
+                    android:textSize="20sp"
+                    app:strokeColor="#859585"
+                    app:strokeWidth="2dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pegA2" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pegG3"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="28dp"
+                    android:backgroundTint="#353534"
+                    android:text="G"
+                    android:textColor="#e5e2e1"
+                    android:textSize="20sp"
+                    app:strokeColor="#859585"
+                    app:strokeWidth="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pegB3"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="28dp"
+                    android:backgroundTint="#353534"
+                    android:text="B"
+                    android:textColor="#e5e2e1"
+                    android:textSize="20sp"
+                    app:strokeColor="#859585"
+                    app:strokeWidth="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pegG3" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/pegE4"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="28dp"
+                    android:backgroundTint="#353534"
+                    android:text="e"
+                    android:textAllCaps="false"
+                    android:textColor="#e5e2e1"
+                    android:textSize="20sp"
+                    app:strokeColor="#859585"
+                    app:strokeWidth="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pegB3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <include
         android:id="@+id/bottomNav"
+        layout="@layout/layout_bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#2a2a2a"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:id="@+id/navHome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true">
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_gallery" app:tint="#bacbb9" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Home" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/navTuner"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="64dp"
-                android:layout_height="32dp"
-                android:background="@drawable/bg_nav_active"
-                android:gravity="center">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_compass" app:tint="#00612e" />
-            </LinearLayout>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tuner" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/navGame"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true">
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_media_play" app:tint="#bacbb9" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Game" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/navStats"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true">
-            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="#bacbb9" />
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Stats" android:textColor="#bacbb9" android:textSize="12sp" android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

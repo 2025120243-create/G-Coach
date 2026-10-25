@@ -1,6 +1,5 @@
 package com.nawawi.gcoach;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -8,29 +7,31 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ProgressActivity extends AppCompatActivity {
+public class ProgressActivity extends BaseActivity {
 
     private TextView tvUser, tvStreak, tvSessions, tvAccuracy, tvChartLabel;
     private TextView tvBestEasy, tvBestMedium, tvBestHard, tvNoSessions;
     private LinearLayout chartContainer, recentContainer;
+    private View btnPlayNow;
 
     private DatabaseHelper db;
-    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!ensureLoggedIn()) return;
+
         setContentView(R.layout.activity_progress);
 
         db = DatabaseHelper.getInstance(this);
-        session = new SessionManager(this);
+
+        setupTopBar();               // avatar (top right) opens the Profile screen
+        setupBottomNav(TAB_STATS);
 
         tvUser = findViewById(R.id.tvUser);
         tvStreak = findViewById(R.id.tvStreak);
@@ -44,19 +45,15 @@ public class ProgressActivity extends AppCompatActivity {
         chartContainer = findViewById(R.id.chartContainer);
         recentContainer = findViewById(R.id.recentContainer);
 
-        // Setup Bottom Navigation logic
-        LinearLayout navHome = findViewById(R.id.navHome);
-        LinearLayout navTuner = findViewById(R.id.navTuner);
-        LinearLayout navGame = findViewById(R.id.navGame);
-
-        navHome.setOnClickListener(v -> navigateTo(DashboardActivity.class));
-        navTuner.setOnClickListener(v -> navigateTo(MainActivity.class));
-        navGame.setOnClickListener(v -> navigateTo(DifficultyActivity.class));
+        // Empty state: jump straight to the game picker
+        btnPlayNow = findViewById(R.id.btnPlayNow);
+        btnPlayNow.setOnClickListener(v -> goToTab(TAB_GAME));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (db == null) return; // onCreate stopped early (not logged in)
         loadStats();
     }
 
@@ -119,6 +116,7 @@ public class ProgressActivity extends AppCompatActivity {
     private void buildRecentList(List<DatabaseHelper.SessionRecord> recent) {
         recentContainer.removeAllViews();
         tvNoSessions.setVisibility(recent.isEmpty() ? View.VISIBLE : View.GONE);
+        btnPlayNow.setVisibility(recent.isEmpty() ? View.VISIBLE : View.GONE);
 
         int count = Math.min(5, recent.size());
         for (int i = 0; i < count; i++) {
@@ -176,19 +174,5 @@ public class ProgressActivity extends AppCompatActivity {
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
-    }
-
-    private int dp(int value) {
-        return Math.round(value * getResources().getDisplayMetrics().density);
-    }
-
-    private void navigateTo(Class<?> targetActivity) {
-        Intent intent = new Intent(ProgressActivity.this, targetActivity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-
-        // Remove default slide animation for smooth bottom nav feel
-        overridePendingTransition(0, 0);
-        finish();
     }
 }
